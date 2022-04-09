@@ -1,0 +1,10 @@
+More sample queries using multiple order and customer tables
+
+#Query number of locations that sold more than 1 product in Jan and in New York
+
+select distinct count(location)
+from bit_db.jansales
+where quantity > 1 and
+Location like "%NY%"
+
+
