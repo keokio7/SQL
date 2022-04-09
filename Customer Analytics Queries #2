@@ -8,3 +8,9 @@ where quantity > 1 and
 Location like "%NY%"
 
 
+# Query quantity of each type of headphone sold
+
+select product, sum(quantity)
+from bit_db.febsales
+where product like '%headphone%'
+group by product
