@@ -1,0 +1,48 @@
+#Example of Queries with multiple tables to find statistics regarding customer's orders
+
+
+#1 Query how many orders placed in Jan
+SELECT COUNT(orderid)
+FROM BIT_DB.JanSales
+
+#2. Query for number of iPhone orders
+SELECT COUNT(orderid)
+FROM BIT_DB.JanSales
+WHERE Product='iPhone'
+
+#3. Selecting all customer account no. for Feb orders
+SELECT acctnum
+FROM BIT_DB.customers cust
+INNER JOIN BIT_DB.FebSales Feb
+ON cust.order_id=FEB.orderid
+
+#4. Select the cheapest product sold in Jan and its price
+SELECT distinct Product, price
+FROM BIT_DB.JanSales
+WHERE  price in (SELECT min(price) FROM BIT_DB.JanSales)
+
+
+#5. Query total revenue for each product sold in Jan
+SELECT sum(quantity)*price as revenue
+,product
+FROM BIT_DB.JanSales
+GROUP BY product
+
+
+#6 Selecting product sold at specific location '548 Lincoln St, Seattle, WA 98101.'  Also how many of each product sold, and total revenue.
+select
+sum(Quantity), 
+product, 
+sum(quantity)*price as revenue
+FROM BIT_DB.FebSales 
+WHERE location = '548 Lincoln St, Seattle, WA 98101'
+GROUP BY product
+
+
+7.  Query customer with quantity greater than 2, and the average amount spent for those customers
+count(cust.acctnum), 
+avg(quantity)*price
+FROM BIT_DB.FebSales Feb
+LEFT JOIN BIT_DB.customers cust
+ON FEB.orderid=cust.order_id
+WHERE Feb.Quantity>2
